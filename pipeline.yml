@@ -1,0 +1,22 @@
+name: build_dev
+stages:
+- name: clone
+  steps:
+  - sourceCodeConfig:
+      branch: master
+      branchCondition: only
+      sourceCodeCredentialId: user-ldmxq:c-7ldcn-github-diceone
+      url: https://github.com/diceone/darm-tee.de.git
+- name: build
+  steps:
+  - runScriptConfig:
+      image: busybox:latest
+      isShell: true
+      shellScript: ls
+- name: publish
+  steps:
+  - publishImageConfig:
+      buildContext: .
+      dockerfilePath: ./Dockerfile
+      tag: diceone/darm-tee.de:${CICD_EXECUTION_SEQUENCE}
+triggerWebhookPush: true
